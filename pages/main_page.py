@@ -1,14 +1,16 @@
 from playwright.sync_api import Page, expect
 
-from pages.page import PageBase
+from pages.base_page import PageBase
 from utils.links import MAIN_PAGE
 from utils.locators import CATEGORY_HEAD_BUTTON, CATEGORY_HEAD_ITEM, LOGO_HEAD, SEARCH_HEAD_BUTTON, GEO_HEAD_BUTTON, \
     LOGIN_HEAD_BUTTON, \
-    BURGER_HEAD_BUTTON, COOKIE_BANNER_TITLE, COOKIE_BANNER_ACCEPT, NUMBER_FIELD
+    BURGER_HEAD_BUTTON, COOKIE_BANNER_TITLE, COOKIE_BANNER_ACCEPT
 from utils.texts import COOKIE_TITLE
 
 
 class MainPage(PageBase):
+    url = MAIN_PAGE
+
     def __init__(self, page: Page):
         super().__init__(page)
         self.category_button = self.page.locator(CATEGORY_HEAD_BUTTON)
@@ -21,9 +23,6 @@ class MainPage(PageBase):
         self.cookie_banner_title = self.page.locator(COOKIE_BANNER_TITLE)
         self.cookie_banner_accept = self.page.locator(COOKIE_BANNER_ACCEPT)
         self.number_field = self.page.get_by_role('textbox', name='Телефон')
-
-    def open(self):
-        self._open(MAIN_PAGE)
 
     def check_header(self):
         expect(self.category_button).to_be_visible()

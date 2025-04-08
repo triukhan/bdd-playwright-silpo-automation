@@ -4,11 +4,12 @@ from playwright.sync_api import expect
 
 
 class PageBase:
+    url = None
     def __init__(self, page: Page):
         self.page = page
 
-    def _open(self, page_link: str):
-        self.page.goto(page_link)
+    def open(self):
+        self.page.goto(self.url)
         self.page.wait_for_load_state('networkidle')
 
     @staticmethod
