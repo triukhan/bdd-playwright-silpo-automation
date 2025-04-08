@@ -3,7 +3,7 @@ from playwright.sync_api import Page, Locator
 from playwright.sync_api import expect
 
 
-class PageBase:
+class BasePage:
     url = None
     def __init__(self, page: Page):
         self.page = page

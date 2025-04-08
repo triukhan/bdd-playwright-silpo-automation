@@ -1,0 +1,8 @@
+COOKIE_BANNER_TITLE = '[data-autotestid="cookies-banner-title"]'
+COOKIE_BANNER_ACCEPT = '[data-autotestid="cookies-banner-accept"]'
+MAIN_BANNER = '[data-autotestid="ecom-banners-tiles-v2"]'
+ADD_TO_CARD_BTN = '[data-autotestid="card-add-to-basket-button"]'
+SELECT_ADDRESS_DIALOG = '[data-autotestid="new-select-address-modal"]'
+SEARCH_ADDRESS_FIELD = '[data-autotestid="address-search-input"]'
+SEARCH_SUGGESTIONS = '[data-autotestid="address-search-suggestions__item"]'
+ADDRESS_CONFIRM_BTN = '[data-autotestid="scheduled-delivery-submit-btn"]'

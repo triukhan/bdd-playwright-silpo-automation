@@ -1,0 +1,7 @@
+CATEGORY_HEAD_BTN = '[data-autotestid="shop-silpo-category-menu-button"]'
+CATEGORY_HEAD_ITEM = '[data-autotestid="menu-categories__link"]'
+LOGO_HEAD = '.header__logo'
+SEARCH_HEAD_BTN = '[data-autotestid="search"]'
+GEO_HEAD_BTN = '[data-autotestid="geo-pin"]'
+LOGIN_HEAD_BTN = '[data-autotestid="login-button"]'
+BURGER_HEAD_BTN = '[data-autotestid="ecomui-icon-mobile-menu"]'
