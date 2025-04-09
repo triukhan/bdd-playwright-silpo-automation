@@ -6,7 +6,7 @@ from pages.silpo_page import SilpoPage
 from utils.links import MAIN_PAGE
 from pages.main_page.locators import COOKIE_BANNER_TITLE, COOKIE_BANNER_ACCEPT, MAIN_BANNER, ADD_TO_CARD_BTN, \
     SELECT_ADDRESS_DIALOG, SEARCH_ADDRESS_FIELD, SEARCH_SUGGESTIONS, ADDRESS_CONFIRM_BTN, CLOSE_ADDRESS_CONFIRM, \
-    COUNT_CARD_BADGE, ADDRESS_LABEL
+    COUNT_CARD_BADGE, ADDRESS_LABEL, ADD_TO_CART_BTN, CAROUSEL
 from utils.texts import COOKIE_TITLE
 
 
@@ -25,6 +25,7 @@ class MainPage(SilpoPage):
         self.close_address_confirm_btn = self.page.locator(CLOSE_ADDRESS_CONFIRM)
         self.count_cart_badge = self.page.locator(COUNT_CARD_BADGE)
         self.address_label = self.page.locator(ADDRESS_LABEL)
+        self._sales_carousel = self.page.locator(CAROUSEL)
 
     def get_cart_counter(self):
         return self.count_cart_badge.inner_text()
@@ -37,3 +38,7 @@ class MainPage(SilpoPage):
 
     def click_first_suggested_address(self):
         self.page.locator(SEARCH_SUGGESTIONS).first.click()
+
+    def get_first_product(self):
+        product = self._sales_carousel.first
+        return product, product.locator(ADD_TO_CARD_BTN)
