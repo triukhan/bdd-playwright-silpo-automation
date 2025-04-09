@@ -2,3 +2,4 @@ playwright~=1.51.0
 pytest~=8.3.5
 pytest-playwright
 allure-pytest
+behave~=1.2.6
