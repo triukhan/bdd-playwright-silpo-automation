@@ -6,7 +6,7 @@ from pages.silpo_page import SilpoPage
 from utils.links import MAIN_PAGE
 from pages.main_page.locators import COOKIE_BANNER_TITLE, COOKIE_BANNER_ACCEPT, MAIN_BANNER, ADD_TO_CARD_BTN, \
     SELECT_ADDRESS_DIALOG, SEARCH_ADDRESS_FIELD, SEARCH_SUGGESTIONS, ADDRESS_CONFIRM_BTN, CLOSE_ADDRESS_CONFIRM, \
-    COUNT_CARD_BADGE, ADDRESS_LABEL, CAROUSEL
+    COUNT_CARD_BADGE, ADDRESS_LABEL, CAROUSEL, ADD_TO_CART_ICON, DECREASE_ICON
 from utils.texts import COOKIE_TITLE
 
 
@@ -40,13 +40,37 @@ class MainPage(SilpoPage):
         self.page.locator(SEARCH_SUGGESTIONS).first.click()
 
     def get_first_product(self):
-        product = self._sales_carousel.first
-        return ProductCard(product.text_content(), product.locator(ADD_TO_CARD_BTN))
+        return ProductCard(self._sales_carousel.first)
 
 @dataclass
 class ProductCard:
-    info: str
-    add_button: Locator
+    element: Locator
+    cart_counter: int = 0
+
+    def __post_init__(self):
+        self.info: str = self.element.text_content()
+        self.add_button: Locator = self.element.locator(ADD_TO_CARD_BTN)
+        self.add_icon: Locator = self.element.locator(ADD_TO_CART_ICON)
+        self.decrease_icon: Locator = self.element.locator(DECREASE_ICON)
 
     def add_to_cart(self):
-        self.add_button.click()
+        if not self.cart_counter:
+            self.add_button.click()
+            self.cart_counter += 1
+        else:
+            self.add_icon.click()
+
+    def decrease(self):
+        if not self.cart_counter:
+            raise ValueError('The product is not added to the cart')
+        self.decrease_icon.click()
+
+    def expect_counter_visible(self, visible: bool = True):
+        if visible:
+            expect(self.add_icon).to_be_visible()
+            expect(self.decrease_icon).to_be_visible()
+            expect(self.add_button).not_to_be_visible()
+        else:
+            expect(self.add_icon).not_to_be_visible()
+            expect(self.decrease_icon).not_to_be_visible()
+            expect(self.add_button).to_be_visible()

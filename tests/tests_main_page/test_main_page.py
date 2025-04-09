@@ -1,3 +1,5 @@
+import time
+
 from playwright.sync_api import Page, expect
 from pages.main_page.main_page import MainPage
 from pages.vacancies_page.vacancies_page import VacanciesPage
@@ -31,3 +33,11 @@ def test_add_product(main_page_with_address: MainPage):
     product_card.add_to_cart()
     cart_count = main_page.get_cart_counter()
     assert cart_count == '1',  f'Expected cart count to be 1, but got {cart_count}'
+
+def test_add_remove_product(main_page_with_address: MainPage):
+    main_page = main_page_with_address
+    product_card = main_page.get_first_product()
+    product_card.add_to_cart()
+    product_card.expect_counter_visible()
+    product_card.decrease()
+    product_card.expect_counter_visible(False)
