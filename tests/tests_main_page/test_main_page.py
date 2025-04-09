@@ -30,7 +30,6 @@ def test_add_goods_without_address(main_page: MainPage):
 
 def test_add_goods(main_page_with_address: MainPage):
     main_page = main_page_with_address
-    time.sleep(1) # todo: in fixture add wait until address is aplied
     main_page.page.wait_for_selector('[aria-label^="Продукт"]')
     product_name = "Вершки Галичина ультрапастеризовані 15%"
     product_card = main_page.page.locator(f'[aria-label*="{product_name}"]').first

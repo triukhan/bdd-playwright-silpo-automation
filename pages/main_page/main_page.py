@@ -1,10 +1,12 @@
-from playwright.sync_api import Page
+import time
+
+from playwright.sync_api import Page, expect
 
 from pages.silpo_page import SilpoPage
 from utils.links import MAIN_PAGE
 from pages.main_page.locators import COOKIE_BANNER_TITLE, COOKIE_BANNER_ACCEPT, MAIN_BANNER, ADD_TO_CARD_BTN, \
     SELECT_ADDRESS_DIALOG, SEARCH_ADDRESS_FIELD, SEARCH_SUGGESTIONS, ADDRESS_CONFIRM_BTN, CLOSE_ADDRESS_CONFIRM, \
-    COUNT_CARD_BADGE
+    COUNT_CARD_BADGE, ADDRESS_LABEL
 from utils.texts import COOKIE_TITLE
 
 
@@ -22,9 +24,13 @@ class MainPage(SilpoPage):
         self.address_confirm_button = self.page.locator(ADDRESS_CONFIRM_BTN)
         self.close_address_confirm_btn = self.page.locator(CLOSE_ADDRESS_CONFIRM)
         self.count_cart_badge = self.page.locator(COUNT_CARD_BADGE)
+        self.address_label = self.page.locator(ADDRESS_LABEL)
 
     def get_cart_counter(self):
         return self.count_cart_badge.inner_text()
+
+    def wait_for_address(self, address: str, timeout: int = 15000):
+        expect(self.address_label).to_have_text(address, timeout=timeout, use_inner_text=True)
 
     def check_cookie_banner(self):
         self._check_element_text(self.cookie_banner_title, COOKIE_TITLE)
