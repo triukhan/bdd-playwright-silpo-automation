@@ -1,3 +1,5 @@
+import time
+
 from playwright.sync_api import Page, expect
 
 from pages.main_page.main_page import MainPage
@@ -28,4 +30,12 @@ def test_add_goods_without_address(main_page: MainPage):
 
 def test_add_goods(main_page_with_address: MainPage):
     main_page = main_page_with_address
-    main_page.add_to_cart_buttons.first.click()
+    time.sleep(1) # todo: in fixture add wait until address is aplied
+    main_page.page.wait_for_selector('[aria-label^="Продукт"]')
+    product_name = "Вершки Галичина ультрапастеризовані 15%"
+    product_card = main_page.page.locator(f'[aria-label*="{product_name}"]').first
+    price_locator = product_card.locator('.product-card-price__displayPrice')
+    price_text = price_locator.inner_text()
+    add_button = product_card.locator('[data-autotestid="card-add-to-basket-button"]')
+    add_button.click()
+    assert main_page.get_cart_counter() == '1'
