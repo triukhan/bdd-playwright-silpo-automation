@@ -1,12 +1,12 @@
-import time
+from dataclasses import dataclass
 
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page, expect, Locator
 
 from pages.silpo_page import SilpoPage
 from utils.links import MAIN_PAGE
 from pages.main_page.locators import COOKIE_BANNER_TITLE, COOKIE_BANNER_ACCEPT, MAIN_BANNER, ADD_TO_CARD_BTN, \
     SELECT_ADDRESS_DIALOG, SEARCH_ADDRESS_FIELD, SEARCH_SUGGESTIONS, ADDRESS_CONFIRM_BTN, CLOSE_ADDRESS_CONFIRM, \
-    COUNT_CARD_BADGE, ADDRESS_LABEL, ADD_TO_CART_BTN, CAROUSEL
+    COUNT_CARD_BADGE, ADDRESS_LABEL, CAROUSEL
 from utils.texts import COOKIE_TITLE
 
 
@@ -41,4 +41,12 @@ class MainPage(SilpoPage):
 
     def get_first_product(self):
         product = self._sales_carousel.first
-        return product, product.locator(ADD_TO_CARD_BTN)
+        return ProductCard(product.text_content(), product.locator(ADD_TO_CARD_BTN))
+
+@dataclass
+class ProductCard:
+    info: str
+    add_button: Locator
+
+    def add_to_cart(self):
+        self.add_button.click()

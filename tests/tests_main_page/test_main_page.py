@@ -1,8 +1,4 @@
-import time
-
 from playwright.sync_api import Page, expect
-
-from pages.main_page.locators import ADD_TO_CARD_BTN
 from pages.main_page.main_page import MainPage
 from pages.vacancies_page.vacancies_page import VacanciesPage
 
@@ -24,14 +20,14 @@ def test_goto_vacancies(main_page: MainPage, page: Page):
     vacancies_page.logo.click()
     expect(main_page.main_banner).to_be_visible()
 
-def test_add_goods_without_address(main_page: MainPage):
-    main_page.add_to_cart_buttons.first.click()
+def test_add_product_without_address(main_page: MainPage):
+    main_page.get_first_product().click()
     expect(main_page.select_address_dialog).to_be_visible()
 
 
 def test_add_product(main_page_with_address: MainPage):
     main_page = main_page_with_address
-    _, product_add_button = main_page.get_first_product()
-    product_add_button.click()
+    product_card = main_page.get_first_product()
+    product_card.add_to_cart()
     cart_count = main_page.get_cart_counter()
     assert cart_count == '1',  f'Expected cart count to be 1, but got {cart_count}'
