@@ -1,23 +1,33 @@
 import re
 from typing import Callable
-from behave import given
+from behave import given, when, then
+from bdd.features.steps.utils import find_func_by_step, action, get_page, ARG
 
-from bdd.features.steps.utils import find_func_by_step, action, get_page
 
-
-@given('{step_text}')
-def perform_step(context, step_text: str) -> Callable:
-    step_parts = re.split(r',\s*| and | with ', step_text.lower().strip())
+@given('{text}')
+@when('{text}')
+@then('{text}')
+def perform_step(context, text: str) -> Callable:
+    step_parts = re.split(r',\s*| and | with ', text.lower().strip())
     func, args, kwargs = find_func_by_step(step_parts)
     return func(context, *args, **kwargs)
 
 
-@action(r'open (\w+) page')
+@action(f'open {ARG} page')
 def open_page(context, page_name: str, delivery: bool = False) -> None:
-    page_class = get_page(page_name, context.page)
-    page_class.open()
+    context.current_page = get_page(page_name, context.page)
+    context.current_page.open()
 
     if delivery:
-        page_class.set_delivery_address()
+        context.current_page.set_delivery_address()
 
     print(f'[DEBUG] Opened {page_name} | delivery={delivery}')
+
+
+@action(f'click {ARG}')
+def click_element(context, element: str) -> None:
+    context.current_page.click(element)
+
+@action(f'{ARG} should be absent')
+def assert_element_absent(context, element: str) -> None:
+    context.current_page.assert_element_is_visible(element, False)

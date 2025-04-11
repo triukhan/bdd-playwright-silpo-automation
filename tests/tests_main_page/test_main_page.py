@@ -8,8 +8,8 @@ def test_check_header(main_page: MainPage):
 
 def test_cookie_menu(main_page: MainPage):
     main_page.check_cookie_banner()
-    main_page.cookie_banner_accept.click()
-    expect(main_page.cookie_banner_title).not_to_be_visible()
+    main_page.accept_cookie.click()
+    expect(main_page.cookie_banner).not_to_be_visible()
 
 def test_goto_vacancies(main_page: MainPage, page: Page):
     main_page.burger_btn.click()

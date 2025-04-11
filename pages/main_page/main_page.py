@@ -14,8 +14,8 @@ class MainPage(SilpoPage):
 
     def __init__(self, page: Page):
         super().__init__(page)
-        self.cookie_banner_title = self.page.locator(COOKIE_BANNER_TITLE)
-        self.cookie_banner_accept = self.page.locator(COOKIE_BANNER_ACCEPT)
+        self.cookie_banner = self.page.locator(COOKIE_BANNER_TITLE)
+        self.accept_cookie = self.page.locator(COOKIE_BANNER_ACCEPT)
         self.main_banner = self.page.locator(MAIN_BANNER)
         self.add_to_cart_buttons = self.page.locator(ADD_TO_CARD_BTN)
         self.count_cart_badge = self.page.locator(COUNT_CARD_BADGE)
@@ -25,7 +25,7 @@ class MainPage(SilpoPage):
         return self.count_cart_badge.inner_text()
 
     def check_cookie_banner(self):
-        self._check_element_text(self.cookie_banner_title, COOKIE_TITLE)
+        self._check_element_text(self.cookie_banner, COOKIE_TITLE)
 
     def get_first_product(self):
         return ProductCard(self._sales_carousel.first)

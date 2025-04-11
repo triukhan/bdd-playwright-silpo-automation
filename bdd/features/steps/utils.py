@@ -8,6 +8,8 @@ VALUES = {
     'false': False,
 }
 
+ARG = r'(\w+)'
+
 actions = {}
 
 def get_page(page_name: str, page: Page):
