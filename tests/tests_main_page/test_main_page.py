@@ -4,7 +4,7 @@ from pages.vacancies_page.vacancies_page import VacanciesPage
 
 
 def test_check_header(main_page: MainPage):
-    main_page.check_header()
+    main_page.assert_header()
 
 def test_cookie_menu(main_page: MainPage):
     main_page.check_cookie_banner()
@@ -12,11 +12,11 @@ def test_cookie_menu(main_page: MainPage):
     expect(main_page.cookie_banner).not_to_be_visible()
 
 def test_goto_vacancies(main_page: MainPage, page: Page):
-    main_page.burger_btn.click()
+    main_page.burger_button.click()
     main_page.vacancies_link.click()
     vacancies_page = VacanciesPage(page)
     expect(vacancies_page.vacancies_banner).to_be_visible()
-    vacancies_page.check_header()
+    vacancies_page.assert_header()
     vacancies_page.logo.click()
     expect(main_page.main_banner).to_be_visible()
 

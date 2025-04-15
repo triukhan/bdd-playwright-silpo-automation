@@ -18,7 +18,7 @@ class SilpoPage(BasePage):
         self.search_btn = self.page.locator(SEARCH_HEAD_BTN)
         self.geo_header_btn = self.page.locator(GEO_HEAD_BTN)
         self.login_btn = self.page.locator(LOGIN_HEAD_BTN)
-        self.burger_btn = self.page.locator(BURGER_HEAD_BTN)
+        self.burger_button = self.page.locator(BURGER_HEAD_BTN)
         self.vacancies_link = self.page.get_by_role('link', name='Вакансії')
         self.select_address_dialog = self.page.locator(SELECT_ADDRESS_DIALOG)
         self.search_address_field = self.page.locator(SEARCH_ADDRESS_FIELD)
@@ -26,7 +26,7 @@ class SilpoPage(BasePage):
         self.close_address_confirm_btn = self.page.locator(CLOSE_ADDRESS_CONFIRM)
         self.address_label = self.page.locator(ADDRESS_LABEL)
 
-    def check_header(self):
+    def assert_header(self):
         expect(self.category_btn).to_be_visible()
         expect(self.logo).to_be_visible()
         expect(self.search_btn).to_be_visible()

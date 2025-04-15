@@ -23,6 +23,12 @@ def open_page(context, page_name: str, delivery: bool = False) -> None:
 
     print(f'[DEBUG] Opened {page_name} | delivery={delivery}')
 
+@action(f'opened {ARG} page')
+def opened_page(context, page_name: str) -> None:
+    context.current_page = get_page(page_name, context.page)
+
+    print(f'[DEBUG] New current page={page_name}')
+
 
 @action(f'click {ARG}')
 def click_element(context, element: str) -> None:
@@ -31,3 +37,14 @@ def click_element(context, element: str) -> None:
 @action(f'{ARG} should be absent')
 def assert_element_absent(context, element: str) -> None:
     context.current_page.assert_element_is_visible(element, False)
+
+@action(f'should be {ARG}')
+def assert_element_present(context, element: str) -> None:
+    print(element)
+    context.current_page.assert_element_is_visible(element, False)
+
+@action('should be header elements')
+def assert_header(context) -> None:
+    context.current_page.assert_header()
+
+    print('[DEBUG] Header elements checked')
