@@ -40,7 +40,7 @@ def assert_element_absent(context, element: str) -> None:
 
 @action(f'should be {ARG}', priority=1)
 def assert_element_present(context, element: str) -> None:
-    context.current_page.assert_element_is_visible(element, False)
+    context.current_page.assert_element_is_visible(element, True)
 
 @action('should be header elements')
 def assert_header(context) -> None:

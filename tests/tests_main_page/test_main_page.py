@@ -21,9 +21,9 @@ def test_goto_vacancies(main_page: MainPage, page: Page):
     expect(main_page.main_banner).to_be_visible()
 
 def test_add_product_without_address(main_page: MainPage):
-    main_page.get_first_product().click()
-    expect(main_page.select_address_dialog).to_be_visible()
-
+    product_card = main_page.get_first_product()
+    product_card.add_to_cart()
+    main_page.assert_element_is_visible('select_address_dialog')
 
 def test_add_product(main_page_with_address: MainPage):
     main_page = main_page_with_address
