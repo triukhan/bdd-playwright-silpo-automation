@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="git_logo/silpo-logo.png" alt="logo" width="100">
+  <img src="git_logo/silpo-logo.png" alt="logo" width="150">
 </p>
 
 <strong>project in progress...</strong>
