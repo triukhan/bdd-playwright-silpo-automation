@@ -1,5 +1,6 @@
 import inspect
 import re
+from typing import Callable
 
 from playwright.sync_api import Page
 
@@ -10,7 +11,7 @@ VALUES = {
 
 ARG = r'(\w+)'
 
-actions = {}
+actions: list[tuple[int, re.Pattern, Callable]] = []
 
 def get_page(page_name: str, page: Page):
     from pages.main_page.main_page import MainPage
@@ -19,10 +20,10 @@ def get_page(page_name: str, page: Page):
 
     return pages[page_name](page)
 
-def action(pattern: str):
+def action(pattern: str, priority: int = 0):
     def decorator(func):
         regex = re.compile(pattern)
-        actions[regex] = func
+        actions.append((priority, regex, func))
         return func
     return decorator
 
@@ -35,7 +36,9 @@ def find_func_by_step(step_parts: list):
     args = step_parts[1:]
     kwargs = {}
 
-    for regex, func in actions.items():
+    sorted_actions = sorted(actions, key=lambda x: x[0])
+
+    for _, regex, func in sorted_actions:
         match = regex.match(func_name)
         if match:
             for arg in args[:]:

@@ -32,7 +32,7 @@ class SilpoPage(BasePage):
         expect(self.search_btn).to_be_visible()
         expect(self.geo_header_btn).to_be_visible()
         expect(self.login_btn).to_be_visible()
-        expect(self.burger_btn).to_be_visible()
+        expect(self.burger_button).to_be_visible()
 
     def set_delivery_address(self, address: str = DELIVERY_ADDRESS):
         self.geo_header_btn.click()

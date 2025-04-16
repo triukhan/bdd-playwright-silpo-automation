@@ -34,13 +34,12 @@ def opened_page(context, page_name: str) -> None:
 def click_element(context, element: str) -> None:
     context.current_page.click(element)
 
-@action(f'{ARG} should be absent')
+@action(f'{ARG} should be absent', priority=1)
 def assert_element_absent(context, element: str) -> None:
     context.current_page.assert_element_is_visible(element, False)
 
-@action(f'should be {ARG}')
+@action(f'should be {ARG}', priority=1)
 def assert_element_present(context, element: str) -> None:
-    print(element)
     context.current_page.assert_element_is_visible(element, False)
 
 @action('should be header elements')

@@ -8,4 +8,5 @@ Feature: Test cookie menu
     Then should be vacancies_banner
     Then should be header elements
     When click logo
+    Then opened main page
     Then should be main_banner
