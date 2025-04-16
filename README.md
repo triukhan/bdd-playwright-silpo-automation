@@ -1,6 +1,12 @@
-project in progress...
+<p align="center">
+  <img src="git_logo/silpo-logo.png" alt="logo" width="100">
+</p>
 
-start tests with docker and allure results:
+<strong>project in progress...</strong>
 
+Start tests with Docker and allure results:
+
+```sh
 docker build -t playwright-tests .
 docker run --rm -v $(pwd)/allure-results:/app/allure-results playwright-tests
+```
