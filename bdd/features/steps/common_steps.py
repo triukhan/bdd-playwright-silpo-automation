@@ -1,7 +1,7 @@
 import re
 from typing import Callable
 from behave import given, when, then
-from bdd.features.steps.utils import find_func_by_step, action, get_page, ARG
+from bdd.features.steps.utils import find_func_by_step, action, get_page, ARG, Priority
 
 
 @given('{text}')
@@ -34,11 +34,11 @@ def opened_page(context, page_name: str) -> None:
 def click_element(context, element: str) -> None:
     context.current_page.click(element)
 
-@action(f'{ARG} should be absent', priority=1)
+@action(f'{ARG} should be absent', priority=Priority.MEDIUM)
 def assert_element_absent(context, element: str) -> None:
     context.current_page.assert_element_is_visible(element, False)
 
-@action(f'should be {ARG}', priority=1)
+@action(f'should be {ARG}', priority=Priority.MEDIUM)
 def assert_element_present(context, element: str) -> None:
     context.current_page.assert_element_is_visible(element, True)
 
@@ -47,3 +47,26 @@ def assert_header(context) -> None:
     context.current_page.assert_header()
 
     print('[DEBUG] Header elements checked')
+
+@action(f'execute {ARG} on {ARG}')
+def execute_context_element_method(context, method_name: str, context_element: str, *args) -> None:
+    context_element_instance = getattr(context, context_element)
+
+    if (method := getattr(context_element_instance, method_name, None)) is not None:
+        if callable(method):
+            method(*args)
+        else:
+            raise TypeError(f"'{method_name}' exists in {context_element_instance}, but is not callable.")
+    else:
+        raise TypeError(f"'{method_name}' is not exists in {context_element_instance}.")
+
+
+@action(f'should be {ARG} on {ARG}', priority=Priority.MAJOR)
+def assert_context_element_present(context, element: str, context_element: str) -> None:
+    method_name = f'expect_{element}_visible'
+    execute_context_element_method(context, method_name, context_element)
+
+@action(f'{ARG} absent on {ARG}', priority=Priority.MAJOR)
+def assert_context_element_present(context, element: str, context_element: str) -> None:
+    method_name = f'expect_{element}_visible'
+    execute_context_element_method(context, method_name, context_element, False)

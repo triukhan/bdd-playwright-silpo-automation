@@ -9,10 +9,11 @@ def assert_cookie_menu(context) -> None:
 def add_first_product(context) -> None:
     product_card = context.current_page.get_first_product()
     product_card.add_to_cart()
+    context.selected_product = product_card
 
     print('[DEBUG] Added first product')
 
 @action(f'cart counter should be {ARG}')
-def asser_cart_counter(context, number: int) -> None:
+def assert_cart_counter(context, number: int) -> None:
     cart_count = context.current_page.get_cart_counter()
     assert cart_count == str(number),  f'Expected cart count to be 1, but got {cart_count}'

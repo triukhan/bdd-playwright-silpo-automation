@@ -1,5 +1,6 @@
 import inspect
 import re
+from enum import Enum
 from typing import Callable
 
 from playwright.sync_api import Page
@@ -11,7 +12,13 @@ VALUES = {
 
 ARG = r'(\w+)'
 
-actions: list[tuple[int, re.Pattern, Callable]] = []
+class Priority(Enum):
+    LOW = 0
+    MEDIUM = 1
+    MAJOR = 2
+    CRITICAL = 3
+
+actions: list[tuple[Priority, re.Pattern, Callable]] = []
 
 def get_page(page_name: str, page: Page):
     from pages.main_page.main_page import MainPage
@@ -20,7 +27,7 @@ def get_page(page_name: str, page: Page):
 
     return pages[page_name](page)
 
-def action(pattern: str, priority: int = 0):
+def action(pattern: str, priority: Priority = Priority.LOW):
     def decorator(func):
         regex = re.compile(pattern)
         actions.append((priority, regex, func))
@@ -36,7 +43,7 @@ def find_func_by_step(step_parts: list):
     args = step_parts[1:]
     kwargs = {}
 
-    sorted_actions = sorted(actions, key=lambda x: x[0])
+    sorted_actions = sorted(actions, key=lambda x: -x[0].value)
 
     for _, regex, func in sorted_actions:
         match = regex.match(func_name)
