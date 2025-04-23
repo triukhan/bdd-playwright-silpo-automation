@@ -11,6 +11,7 @@ class BasePage:
     def open(self):
         self.page.goto(self.url)
         self.page.wait_for_load_state('networkidle')
+        # todo: logging
 
     @staticmethod
     def _check_element_text(element: Locator, text: str):
