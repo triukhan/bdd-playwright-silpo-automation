@@ -2,8 +2,6 @@
   <img src="git_logo/silpo-logo.png" alt="logo" width="150">
 </p>
 
-<strong>project in progress...</strong>
-
 Start tests with Docker and allure results:
 
 ```sh
